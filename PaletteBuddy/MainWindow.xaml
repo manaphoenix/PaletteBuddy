@@ -1,0 +1,55 @@
+﻿<Window x:Class="PaletteBuddy.MainWindow"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PaletteBuddy"
+        mc:Ignorable="d"
+        Title="Palette Pal v2" Height="450" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" FontFamily="Times New Roman" Background="#FF333333" Foreground="White" Closing="Window_Closing">
+    <Grid x:Name="grid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Menu HorizontalAlignment="Stretch" Height="20" Margin="0,0,0,0" VerticalAlignment="Top" Background="#FF333333" Foreground="White">
+            <MenuItem Header="File">
+                <MenuItem Header="Save File" Foreground="Black" Click="Button_SaveToFile"/>
+                <MenuItem Header="Exit" Foreground="Black" Click="Button_Exit"/>
+            </MenuItem>
+            <MenuItem Header="Color">
+                <MenuItem Header="Save Color" Foreground="Black" Click="Button_Save"/>
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="View Colors.xml" Foreground="Black" Click="Button_OpenFile"/>
+            </MenuItem>
+            <MenuItem Header="Settings">
+                <MenuItem Header="Preferences..." Foreground="Black"/>
+                <MenuItem Header="Reset Colors" Foreground="Black" Click="Button_ResetColors"/>
+            </MenuItem>
+        </Menu>
+        <TextBox TextChanged="Search_Bar_TextChanged" Name="Search_Bar" HorizontalAlignment="Left" Height="22" Margin="0,25,0,0" VerticalAlignment="Top" Width="600" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
+        <ListBox ItemsSource="{Binding}" Name="ItemList" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="350"  Width="600" Background="#FF333333" Foreground="White" Loaded="ItemList_Loaded" SelectionChanged="ItemList_SelectionChanged" SelectionMode="Single">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete" Click="Button_Remove"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+        <TextBox Name="NameBox" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,170" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
+        <Label Content="Name" HorizontalAlignment="Right" Margin="0,0,125,190" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
+
+        <TextBox LostFocus="RGBBox_LostFocus" KeyDown="RGBBox_KeyDown" Name="RGBBox" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,70" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
+        <Label Content="RGB" HorizontalAlignment="Right" Margin="0,0,125,90" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
+
+        <TextBox LostFocus="HexBox_LostFocus" KeyDown="HexBox_KeyDown" Name="HexBox" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,120" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
+        <Label Content="Hex" HorizontalAlignment="Right" Margin="0,0,125,140" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
+
+        <Border Name="Preview" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Right" Height="150" Margin="0,25,25,0" VerticalAlignment="Top" Width="150"/>
+        
+        <xctk:ColorPicker Name="ColorPicker" HorizontalAlignment="Right" Margin="0,0,25,20" VerticalAlignment="Bottom" Width="150" Background="#FF333333" DropDownBackground="#FF333333" HeaderBackground="#FF333333" TabBackground="#FF333333" TabForeground="White" HeaderForeground="White" SelectedColorChanged="ColorPicker_SelectedColorChanged" ShowStandardColors="False" ShowDropDownButton="False" ShowAvailableColors="False" ShowTabHeaders="False" ColorMode="ColorCanvas"/>
+
+        <Label Name="Status" Content="" Height="22" HorizontalAlignment="Right" Margin="0,180,10,0" VerticalAlignment="Top" Width="175" Foreground="Red" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+    </Grid>
+</Window>
