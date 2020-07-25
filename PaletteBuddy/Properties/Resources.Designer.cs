@@ -59,5 +59,14 @@ namespace PaletteBuddy.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning!.
+        /// </summary>
+        internal static string WarningLabel {
+            get {
+                return ResourceManager.GetString("WarningLabel", resourceCulture);
+            }
+        }
     }
 }

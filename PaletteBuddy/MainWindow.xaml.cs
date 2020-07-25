@@ -20,6 +20,7 @@ using System.IO;
 using System.Xml;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace PaletteBuddy
 {
@@ -44,6 +45,7 @@ namespace PaletteBuddy
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private readonly CultureInfo Culture = new CultureInfo("en-US", false);
 		ObservableCollection<ColorItem> items = new ObservableCollection<ColorItem>();
 		public MainWindow()
 		{
@@ -134,7 +136,7 @@ namespace PaletteBuddy
 			}
 			else
 			{
-				var result = MessageBox.Show("Do you wish to overrite?", "Warning!", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+				var result = MessageBox.Show("Do you wish to overrite?", Properties.Resources.WarningLabel, MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
 				if (result.Equals("No")) return;
 				var item = items.Where(x => x.Name == NameBox.Text).First();
 				items.Remove(item);
@@ -149,15 +151,15 @@ namespace PaletteBuddy
 		private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
 		{
 			var val = e.NewValue.Value;
-			Preview.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(val.ToString());
-			HexBox.Text = val.ToString();
+			Preview.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(val.ToString(Culture));
+			HexBox.Text = val.ToString(Culture);
 			RGBBox.Text = $"{val.A},{val.R},{val.G},{val.B}";
 		}
 
 		private void Button_Remove(object sender, RoutedEventArgs e)
 		{
 			//Remove
-			var result = MessageBox.Show("This cannot be undone, are you sure?", "Warning!", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+			var result = MessageBox.Show("This cannot be undone, are you sure?", Properties.Resources.WarningLabel, MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
 			if (result.Equals("No")) return;
 			if (ItemList.SelectedItem is ColorItem item)
 			{
@@ -174,7 +176,7 @@ namespace PaletteBuddy
 
 		private void Button_ResetColors(object sender, RoutedEventArgs e)
 		{
-			var result = MessageBox.Show("This cannot be undone, are you sure?", "Warning!", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+			var result = MessageBox.Show("This cannot be undone, are you sure?", Properties.Resources.WarningLabel, MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
 			if (result.Equals("Yes")) items.Clear();
 			Refresh();
 		}
@@ -209,10 +211,10 @@ namespace PaletteBuddy
 				{
 					var c = new Color();
 					var g = mt.Groups;
-					var A = byte.Parse(g[1].Value);
-					var R = byte.Parse(g[2].Value);
-					var G = byte.Parse(g[3].Value);
-					var B = byte.Parse(g[4].Value);
+					var A = byte.Parse(g[1].Value, Culture);
+					var R = byte.Parse(g[2].Value, Culture);
+					var G = byte.Parse(g[3].Value, Culture);
+					var B = byte.Parse(g[4].Value, Culture);
 					c.A = A;
 					c.R = R;
 					c.G = G;
@@ -231,13 +233,10 @@ namespace PaletteBuddy
 				var mt = Regex.Match(txt, "#.{8,8}");
 				if (mt.Success)
 				{
-					try
+					var c = (Color)ColorConverter.ConvertFromString(txt);
+					if (c != null)
 					{
-						var c = (Color)ColorConverter.ConvertFromString(txt);
 						ColorPicker.SelectedColor = c;
-					} catch (Exception)
-					{
-						// null
 					}
 				}
 			}
@@ -259,7 +258,7 @@ namespace PaletteBuddy
 			var txt = (sender as TextBox).Text;
 			if (txt.Length > 0)
 			{
-				ItemList.ItemsSource = items.Where(x => x.Name.Contains(txt));
+				ItemList.ItemsSource = items.Where(x => x.Name.ToLower(Culture).Contains(txt.ToLower(Culture)));
 			} else
 			{
 				Refresh();
