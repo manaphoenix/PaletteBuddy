@@ -83,6 +83,7 @@ namespace PaletteBuddy
 				ColorPicker.SelectedColor = item.Rgb;
 				ColorPicker.SecondaryColor = item.Rgb;
 				ColorName.Text = item.Name;
+				Kelvin.Text = "";
 			}
 		}
 
@@ -144,8 +145,15 @@ namespace PaletteBuddy
 		{
 			if (File.Exists("Colors.xml"))
 			{
-				var proc = Process.Start("Colors.xml");
-				proc.Exited += (object s, EventArgs ev) => { Load_object(); };
+				var proc = new Process
+				{
+					StartInfo = new ProcessStartInfo("Colors.xml")
+					{
+						UseShellExecute = true
+					}
+				};
+				proc.Start();
+				proc.Exited += (object s, EventArgs ev) => { Load_object(); proc.Exited += null; };
 			}
 		}
 
