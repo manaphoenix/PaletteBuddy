@@ -4,15 +4,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Globalization;
 using System.Windows.Media;
-using ColorPicker.Models;
 
 namespace PaletteBuddy
 {
@@ -20,13 +17,11 @@ namespace PaletteBuddy
 	{
 		public string Name { get; set; }
 		public Color Rgb { get; set; }
-		public string Hex { get; set; }
 
-		public ColorItem(string name, Color rgb, string hex)
+		public ColorItem(string name, Color rgb)
 		{
 			Name = name;
 			Rgb = rgb;
-			Hex = hex;
 		}
 
 		public ColorItem() { }
@@ -71,11 +66,8 @@ namespace PaletteBuddy
 			{
 				var item = items.First();
 				ItemList.SelectedItem = item;
-				NameBox.Text = item.Name;
-				RGBBox.Text = $"{item.Rgb.A},{item.Rgb.R},{item.Rgb.G},{item.Rgb.B}";
-				HexBox.Text = item.Hex;
-				HSVBox.Text = ColorHelper.ColorConverter.HexToHsv(new ColorHelper.HEX(item.Hex)).ToString();
 				ColorPicker.SelectedColor = item.Rgb;
+				ColorName.Text = item.Name;
 			}
 		}
 
@@ -84,22 +76,9 @@ namespace PaletteBuddy
 			//Load Button
 			if ((sender as ListBox).SelectedItem is ColorItem item)
 			{
-				NameBox.Text = item.Name;
-				RGBBox.Text = $"{item.Rgb.A},{item.Rgb.R},{item.Rgb.G},{item.Rgb.B}";
-				HexBox.Text = item.Hex;
-				HSVBox.Text = ColorHelper.ColorConverter.HexToHsv(new ColorHelper.HEX(item.Hex)).ToString();
 				ColorPicker.SelectedColor = item.Rgb;
-				UpdateStatus("Loaded", item.Name);
+				ColorName.Text = item.Name;
 			}
-			else
-			{
-				UpdateStatus("Load Failed");
-			}
-		}
-
-		private void UpdateStatus(string status, string obj = "")
-		{
-			Status.Content = $"\"{obj}\" {status}!";
 		}
 
 		private void Refresh()
@@ -111,27 +90,23 @@ namespace PaletteBuddy
 		private void Button_Save(object sender, RoutedEventArgs e)
 		{
 			//Save Button
-			if (NameBox.Text.Length == 0)
+			if (ColorName.Text.Length == 0)
 			{
-				UpdateStatus("Name cannot be empty");
 				return;
 			}
-			if (!items.Where(x => x.Name == NameBox.Text).Any())
+			if (!items.Where(x => x.Name == ColorName.Text).Any())
 			{
-				var item = new ColorItem(NameBox.Text, ColorPicker.SelectedColor.Value, HexBox.Text);
+				var item = new ColorItem(ColorName.Text, ColorPicker.SelectedColor);
 				items.Add(item);
-				UpdateStatus("Saved", NameBox.Text);
 			}
 			else
 			{
 				var result = MessageBox.Show("Do you wish to overrite?", Properties.Resources.WarningLabel, MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
 				if (result.Equals("No")) return;
-				var item = items.Where(x => x.Name == NameBox.Text).First();
+				var item = items.Where(x => x.Name == ColorName.Text).First();
 				items.Remove(item);
-				item.Rgb = ColorPicker.SelectedColor.Value;
-				item.Hex = HexBox.Text;
+				item.Rgb = ColorPicker.SelectedColor;
 				items.Add(item);
-				UpdateStatus("Updated", NameBox.Text);
 			}
 			Refresh();
 		}
@@ -144,7 +119,6 @@ namespace PaletteBuddy
 			if (ItemList.SelectedItem is ColorItem item)
 			{
 				items.Remove(item);
-				UpdateStatus("Removed!", NameBox.Text);
 				Refresh();
 			}
 		}
@@ -178,59 +152,6 @@ namespace PaletteBuddy
 		private void Button_SaveToFile(object sender, RoutedEventArgs e)
 		{
 			Save_object();
-			UpdateStatus("Saved!", NameBox.Text);
-		}
-
-		private void RGBBox_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Key.Equals(Key.Enter))
-			{
-				var txt = RGBBox.Text;
-				var mt = Regex.Match(txt, "(\\d+),(\\d+),(\\d+),(\\d+)");
-				if (mt.Success)
-				{
-					var c = new Color();
-					var g = mt.Groups;
-					var A = byte.Parse(g[1].Value, Culture);
-					var R = byte.Parse(g[2].Value, Culture);
-					var G = byte.Parse(g[3].Value, Culture);
-					var B = byte.Parse(g[4].Value, Culture);
-					c.A = A;
-					c.R = R;
-					c.G = G;
-					c.B = B;
-					ColorPicker.SelectedColor = c;
-				}
-			}
-		}
-
-		private void HexBox_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Key.Equals(Key.Enter))
-			{
-				var txt = HexBox.Text;
-				if (txt.Length != 9) return;
-				var mt = Regex.Match(txt, "#.{8,8}");
-				if (mt.Success)
-				{
-					var c = (Color)ColorConverter.ConvertFromString(txt);
-					if (c != null)
-					{
-						ColorPicker.SelectedColor = c;
-					}
-				}
-			}
-		}
-
-		private void RGBBox_LostFocus(object sender, RoutedEventArgs e)
-		{
-			var col = ColorPicker.SelectedColor.Value;
-			RGBBox.Text = $"{col.A},{col.R},{col.G},{col.B}";
-		}
-
-		private void HexBox_LostFocus(object sender, RoutedEventArgs e)
-		{
-			HexBox.Text = ColorPicker.SelectedColor.ToString();
 		}
 
 		private void Search_Bar_TextChanged(object sender, TextChangedEventArgs e)
@@ -245,14 +166,9 @@ namespace PaletteBuddy
 			}
 		}
 
-		private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+		private void ColorPicker_ColorChanged(object sender, RoutedEventArgs e)
 		{
-			var val = e.NewValue.Value;
-			Preview.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(val.ToString(Culture));
-			HexBox.Text = val.ToString(Culture);
-			RGBBox.Text = $"{val.A},{val.R},{val.G},{val.B}";
-			HSVBox.Text = ColorHelper.ColorConverter.HexToHsv(new ColorHelper.HEX(HexBox.Text)).ToString();
-
+			//TODO
 		}
 	}
 }
