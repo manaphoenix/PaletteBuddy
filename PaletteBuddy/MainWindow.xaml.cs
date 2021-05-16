@@ -1,26 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.IO;
 using System.Xml;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Windows.Media;
+using ColorPicker.Models;
 
 namespace PaletteBuddy
 {
@@ -56,10 +48,8 @@ namespace PaletteBuddy
 		private void Save_object()
 		{
 			var serl = new XmlSerializer(typeof(ObservableCollection<ColorItem>));
-			using (var writer = XmlWriter.Create("Colors.xml"))
-			{
-				serl.Serialize(writer, items);
-			}
+			using var writer = XmlWriter.Create("Colors.xml");
+			serl.Serialize(writer, items);
 		}
 
 		private void Load_object()
@@ -67,14 +57,10 @@ namespace PaletteBuddy
 			if (File.Exists("Colors.xml"))
 			{
 				var serl = new XmlSerializer(typeof(ObservableCollection<ColorItem>));
-				using (var reader = new StreamReader("Colors.xml"))
-				{
-					using (var xmlreader = XmlReader.Create(reader))
-					{
-						items = serl.Deserialize(xmlreader)
-							as ObservableCollection<ColorItem>;
-					}
-				}
+				using var reader = new StreamReader("Colors.xml");
+				using var xmlreader = XmlReader.Create(reader);
+				items = serl.Deserialize(xmlreader)
+					as ObservableCollection<ColorItem>;
 			}
 			Refresh();
 		}
@@ -88,6 +74,7 @@ namespace PaletteBuddy
 				NameBox.Text = item.Name;
 				RGBBox.Text = $"{item.Rgb.A},{item.Rgb.R},{item.Rgb.G},{item.Rgb.B}";
 				HexBox.Text = item.Hex;
+				HSVBox.Text = ColorHelper.ColorConverter.HexToHsv(new ColorHelper.HEX(item.Hex)).ToString();
 				ColorPicker.SelectedColor = item.Rgb;
 			}
 		}
@@ -100,6 +87,7 @@ namespace PaletteBuddy
 				NameBox.Text = item.Name;
 				RGBBox.Text = $"{item.Rgb.A},{item.Rgb.R},{item.Rgb.G},{item.Rgb.B}";
 				HexBox.Text = item.Hex;
+				HSVBox.Text = ColorHelper.ColorConverter.HexToHsv(new ColorHelper.HEX(item.Hex)).ToString();
 				ColorPicker.SelectedColor = item.Rgb;
 				UpdateStatus("Loaded", item.Name);
 			}
@@ -263,6 +251,8 @@ namespace PaletteBuddy
 			Preview.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(val.ToString(Culture));
 			HexBox.Text = val.ToString(Culture);
 			RGBBox.Text = $"{val.A},{val.R},{val.G},{val.B}";
+			HSVBox.Text = ColorHelper.ColorConverter.HexToHsv(new ColorHelper.HEX(HexBox.Text)).ToString();
+
 		}
 	}
 }

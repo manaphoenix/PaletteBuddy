@@ -4,11 +4,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PaletteBuddy"
+        xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
         mc:Ignorable="d"
-        xmlns:effects="http://gu.se/Geometry"
         Title="Palette Pal v2" Height="450" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" FontFamily="Times New Roman" Background="#FF333333" Foreground="White" Closing="Window_Closing">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/PaletteBuddy;component/Styles/DarkTransparent.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid x:Name="grid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
         <Menu HorizontalAlignment="Stretch" Height="20" Margin="0,0,0,0" VerticalAlignment="Top" Background="#FF333333" Foreground="White">
             <MenuItem Header="File">
                 <MenuItem Header="Save File" Foreground="Black" Click="Button_SaveToFile"/>
@@ -38,19 +49,26 @@
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>
-        <TextBox Name="NameBox" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,170" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
-        <Label Content="Name" HorizontalAlignment="Right" Margin="0,0,125,190" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
+        </Grid>
+        <Grid Grid.Column="1">
+        <TextBox Visibility="Collapsed" Name="NameBox" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,200" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
+            <Label Visibility="Collapsed" Content="Name" HorizontalAlignment="Right" Margin="0,0,125,220" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
 
-        <TextBox LostFocus="RGBBox_LostFocus" KeyDown="RGBBox_KeyDown" Name="RGBBox" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,70" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
-        <Label Content="RGB" HorizontalAlignment="Right" Margin="0,0,125,90" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
+            <TextBox Visibility="Collapsed" Name="HSVBox" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,160" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
+            <Label Visibility="Collapsed" Content="HSV" HorizontalAlignment="Right" Margin="0,0,125,180" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
 
-        <TextBox LostFocus="HexBox_LostFocus" KeyDown="HexBox_KeyDown" Name="HexBox" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,120" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
-        <Label Content="Hex" HorizontalAlignment="Right" Margin="0,0,125,140" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
+            <TextBox Visibility="Collapsed" LostFocus="RGBBox_LostFocus" KeyDown="RGBBox_KeyDown" Name="RGBBox" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,70" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
+            <Label Visibility="Collapsed" Content="RGB" HorizontalAlignment="Right" Margin="0,0,125,90" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
 
-        <Border Name="Preview" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Right" Height="150" Margin="0,25,25,0" VerticalAlignment="Top" Width="150"/>
+            <TextBox Visibility="Collapsed" LostFocus="HexBox_LostFocus" KeyDown="HexBox_KeyDown" Name="HexBox" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,120" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center"/>
+            <Label Visibility="Collapsed" Content="Hex" HorizontalAlignment="Right" Margin="0,0,125,140" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
 
-        <xctk:ColorPicker Name="ColorPicker" SelectedColorChanged="ColorPicker_SelectedColorChanged" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,25" Background="#FF555555" BorderBrush="Black" Foreground="White" VerticalContentAlignment="Center"/>
+            <Border Visibility="Collapsed" Name="Preview" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Right" Height="150" Margin="0,25,25,0" VerticalAlignment="Top" Width="150"/>
 
-        <Label Name="Status" Content="" Height="22" HorizontalAlignment="Right" Margin="0,180,10,0" VerticalAlignment="Top" Width="175" Foreground="Red" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <xctk:ColorPicker Visibility="Collapsed" Name="ColorPicker" SelectedColorChanged="ColorPicker_SelectedColorChanged" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,25" Background="#FF555555" BorderBrush="Black" Foreground="Black" VerticalContentAlignment="Center"/>
+
+            <colorpicker:StandardColorPicker Style="{StaticResource DefaultColorPickerStyle}" Name="ColorPickerDemo"/>
+            <Label Visibility="Collapsed" Name="Status" Content="" Height="22" HorizontalAlignment="Right" Margin="0,180,10,0" VerticalAlignment="Top" Width="175" Foreground="Red" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        </Grid>
     </Grid>
 </Window>
