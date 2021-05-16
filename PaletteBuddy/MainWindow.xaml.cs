@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Xml.Serialization;
-using System.IO;
-using System.Xml;
-using System.Diagnostics;
-using System.Globalization;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace PaletteBuddy
 {
@@ -25,7 +24,9 @@ namespace PaletteBuddy
 			Rgb = rgb;
 		}
 
-		public ColorItem() { }
+		public ColorItem()
+		{
+		}
 	}
 
 	/// <summary>
@@ -34,7 +35,8 @@ namespace PaletteBuddy
 	public partial class MainWindow : Window
 	{
 		private readonly CultureInfo Culture = new CultureInfo("en-US", false);
-		ObservableCollection<ColorItem> items = new ObservableCollection<ColorItem>();
+		private ObservableCollection<ColorItem> items = new ObservableCollection<ColorItem>();
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -163,7 +165,8 @@ namespace PaletteBuddy
 			if (txt.Length > 0)
 			{
 				ItemList.ItemsSource = items.Where(x => x.Name.ToLower(Culture).Contains(txt.ToLower(Culture)));
-			} else
+			}
+			else
 			{
 				Refresh();
 			}
@@ -173,7 +176,6 @@ namespace PaletteBuddy
 		{
 			var Temperature = temp / 100;
 			double Red, Green, Blue;
-
 
 			if (Temperature <= 66)
 			{

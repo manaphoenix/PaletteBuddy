@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="20" />
             </Grid.ColumnDefinitions>
             <Border Grid.ColumnSpan="2" Background="#2d2d30" />
-            <Path x:Name="Arrow" Grid.Column="1" HorizontalAlignment="Center" Stroke="#cccccc" Fill="#cccccc" VerticalAlignment="Center" Data="M 0,0 l 3,5 l 3,-5 Z"/>
+            <Path x:Name="Arrow" Grid.Column="1" HorizontalAlignment="Center" Stroke="#cccccc" Fill="#cccccc" VerticalAlignment="Center" Data="M 0,0 l 3,5 l 3,-5 Z" />
         </Grid>
     </ControlTemplate>
 
@@ -34,10 +34,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
-                        <ToggleButton Name="ToggleButton" Template="{StaticResource ComboBoxToggleButton}" Grid.Column="2" Focusable="false" 
+                        <ToggleButton Name="ToggleButton" Template="{StaticResource ComboBoxToggleButton}" Grid.Column="2" Focusable="false"
                                           IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press"></ToggleButton>
-                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Margin="4,2,23,2" VerticalAlignment="Center" HorizontalAlignment="Left" 
-                                              Content="{TemplateBinding ComboBox.SelectionBoxItem}" ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}" 
+                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Margin="4,2,23,2" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                              Content="{TemplateBinding ComboBox.SelectionBoxItem}" ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}"
                                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"></ContentPresenter>
                         <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                             <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
