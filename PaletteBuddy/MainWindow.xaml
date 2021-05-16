@@ -55,7 +55,10 @@
                 <Label Content="Color Name" Foreground="White"/>
                 <TextBox Text="COLOR HERE" x:Name="ColorName" Style="{StaticResource DarkTextBox}"/>
 
-                <colorpicker:StandardColorPicker Style="{StaticResource DefaultColorPickerStyle}" Name="ColorPicker" ColorChanged="ColorPicker_ColorChanged"/>
+                <Label Content="Kelvin" Foreground="White"/>
+                <TextBox Text="Kelvin" x:Name="Kelvin" Style="{StaticResource DarkTextBox}" TextChanged="Kelvin_TextChanged"/>
+
+                <colorpicker:StandardColorPicker Style="{StaticResource DefaultColorPickerStyle}" Name="ColorPicker"/>
             </StackPanel>
         </Grid>
     </Grid>
