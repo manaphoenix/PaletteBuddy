@@ -88,7 +88,7 @@ namespace PaletteBuddy
 				NameBox.Text = item.Name;
 				RGBBox.Text = $"{item.Rgb.A},{item.Rgb.R},{item.Rgb.G},{item.Rgb.B}";
 				HexBox.Text = item.Hex;
-				ColorPicker.SelectedColor = item.Rgb;
+				//ColorPicker.SelectedColor = item.Rgb;
 			}
 		}
 
@@ -100,7 +100,7 @@ namespace PaletteBuddy
 				NameBox.Text = item.Name;
 				RGBBox.Text = $"{item.Rgb.A},{item.Rgb.R},{item.Rgb.G},{item.Rgb.B}";
 				HexBox.Text = item.Hex;
-				ColorPicker.SelectedColor = item.Rgb;
+				//ColorPicker.SelectedColor = item.Rgb;
 				UpdateStatus("Loaded", item.Name);
 			}
 			else
@@ -130,9 +130,9 @@ namespace PaletteBuddy
 			}
 			if (!items.Where(x => x.Name == NameBox.Text).Any())
 			{
-				var item = new ColorItem(NameBox.Text, ColorPicker.SelectedColor.Value, HexBox.Text);
-				items.Add(item);
-				UpdateStatus("Saved", NameBox.Text);
+				//var item = new ColorItem(NameBox.Text, ColorPicker.SelectedColor.Value, HexBox.Text);
+				//items.Add(item);
+				//UpdateStatus("Saved", NameBox.Text);
 			}
 			else
 			{
@@ -140,20 +140,12 @@ namespace PaletteBuddy
 				if (result.Equals("No")) return;
 				var item = items.Where(x => x.Name == NameBox.Text).First();
 				items.Remove(item);
-				item.Rgb = ColorPicker.SelectedColor.Value;
+				//item.Rgb = ColorPicker.SelectedColor.Value;
 				item.Hex = HexBox.Text;
 				items.Add(item);
 				UpdateStatus("Updated", NameBox.Text);
 			}
 			Refresh();
-		}
-
-		private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
-		{
-			var val = e.NewValue.Value;
-			Preview.Background = (SolidColorBrush)new BrushConverter().ConvertFromString(val.ToString(Culture));
-			HexBox.Text = val.ToString(Culture);
-			RGBBox.Text = $"{val.A},{val.R},{val.G},{val.B}";
 		}
 
 		private void Button_Remove(object sender, RoutedEventArgs e)
@@ -219,7 +211,7 @@ namespace PaletteBuddy
 					c.R = R;
 					c.G = G;
 					c.B = B;
-					ColorPicker.SelectedColor = c;
+					//ColorPicker.SelectedColor = c;
 				}
 			}
 		}
@@ -236,7 +228,7 @@ namespace PaletteBuddy
 					var c = (Color)ColorConverter.ConvertFromString(txt);
 					if (c != null)
 					{
-						ColorPicker.SelectedColor = c;
+						//ColorPicker.SelectedColor = c;
 					}
 				}
 			}
@@ -244,13 +236,13 @@ namespace PaletteBuddy
 
 		private void RGBBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			var col = ColorPicker.SelectedColor.Value;
-			RGBBox.Text = $"{col.A},{col.R},{col.G},{col.B}";
+			//var col = ColorPicker.SelectedColor.Value;
+			//RGBBox.Text = $"{col.A},{col.R},{col.G},{col.B}";
 		}
 
 		private void HexBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			HexBox.Text = ColorPicker.SelectedColor.ToString();
+			//HexBox.Text = ColorPicker.SelectedColor.ToString();
 		}
 
 		private void Search_Bar_TextChanged(object sender, TextChangedEventArgs e)

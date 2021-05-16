@@ -1,11 +1,12 @@
 ﻿<Window x:Class="PaletteBuddy.MainWindow"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PaletteBuddy"
         mc:Ignorable="d"
+        xmlns:effects="http://gu.se/Geometry"
         Title="Palette Pal v2" Height="450" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" FontFamily="Times New Roman" Background="#FF333333" Foreground="White" Closing="Window_Closing">
     <Grid x:Name="grid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Menu HorizontalAlignment="Stretch" Height="20" Margin="0,0,0,0" VerticalAlignment="Top" Background="#FF333333" Foreground="White">
@@ -47,8 +48,6 @@
         <Label Content="Hex" HorizontalAlignment="Right" Margin="0,0,125,140" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
 
         <Border Name="Preview" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Right" Height="150" Margin="0,25,25,0" VerticalAlignment="Top" Width="150"/>
-        
-        <xctk:ColorPicker Name="ColorPicker" HorizontalAlignment="Right" Margin="0,0,25,20" VerticalAlignment="Bottom" Width="150" Background="#FF333333" DropDownBackground="#FF333333" HeaderBackground="#FF333333" TabBackground="#FF333333" TabForeground="White" HeaderForeground="White" SelectedColorChanged="ColorPicker_SelectedColorChanged" ShowStandardColors="False" ShowDropDownButton="False" ShowAvailableColors="False" ShowTabHeaders="False" ColorMode="ColorCanvas"/>
 
         <Label Name="Status" Content="" Height="22" HorizontalAlignment="Right" Margin="0,180,10,0" VerticalAlignment="Top" Width="175" Foreground="Red" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
     </Grid>
