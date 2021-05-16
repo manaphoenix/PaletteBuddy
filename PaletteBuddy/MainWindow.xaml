@@ -1,5 +1,5 @@
 ﻿<Window x:Class="PaletteBuddy.MainWindow"
-        
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -48,6 +48,8 @@
         <Label Content="Hex" HorizontalAlignment="Right" Margin="0,0,125,140" VerticalAlignment="Bottom" Foreground="White" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="50"/>
 
         <Border Name="Preview" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Right" Height="150" Margin="0,25,25,0" VerticalAlignment="Top" Width="150"/>
+
+        <xctk:ColorPicker Name="ColorPicker" SelectedColorChanged="ColorPicker_SelectedColorChanged" Height="20" VerticalAlignment="Bottom" Width="150" HorizontalAlignment="Right" Margin="0,0,25,25" Background="#FF555555" BorderBrush="Black" Foreground="White" VerticalContentAlignment="Center"/>
 
         <Label Name="Status" Content="" Height="22" HorizontalAlignment="Right" Margin="0,180,10,0" VerticalAlignment="Top" Width="175" Foreground="Red" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
     </Grid>
