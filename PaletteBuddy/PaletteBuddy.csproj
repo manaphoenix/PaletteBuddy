@@ -4,10 +4,11 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <StartupObject>PaletteBuddy.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PixiEditor.ColorPicker" Version="3.1.0" />
+    <PackageReference Include="PixiEditor.ColorPicker" Version="3.3.1" />
   </ItemGroup>
 
 </Project>
