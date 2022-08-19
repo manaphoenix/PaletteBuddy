@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ColorPicker.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -41,6 +42,7 @@ namespace PaletteBuddy
 		{
 			InitializeComponent();
 			Load_object();
+			ColorPicker.ShowAlpha = false;
 		}
 
 		private void Save_object()
