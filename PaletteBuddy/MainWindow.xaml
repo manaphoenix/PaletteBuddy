@@ -34,6 +34,7 @@
                 <MenuItem Header="Settings">
                     <MenuItem Header="Preferences..." Foreground="Black" />
                     <MenuItem Header="Reset Colors" Foreground="Black" Click="Button_ResetColors" />
+                    <Label>V 2.1.0</Label>
                 </MenuItem>
             </Menu>
             <TextBox TextChanged="Search_Bar_TextChanged" Name="Search_Bar" HorizontalAlignment="Left" Height="22" Margin="0,25,0,0" VerticalAlignment="Top" Width="600" Background="#FF555555" BorderBrush="Black" Foreground="White" MaxLines="1" VerticalContentAlignment="Center" />
