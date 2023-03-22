@@ -5,7 +5,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <StartupObject>PaletteBuddy.App</StartupObject>
+    <ApplicationIcon>PaletteIco.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="PaletteIco.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="PixiEditor.ColorPicker" Version="3.3.1" />
